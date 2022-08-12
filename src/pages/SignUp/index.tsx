@@ -33,7 +33,7 @@ export default function SignIn() {
         };
 
         //await createUser(data);
-        await axios.post(`https://integracao-front-back-api.herokuapp.com/user`, data);
+        await axios.post(`https://integracao-front-back-api.herokuapp.com/user`, data, {headers: {"Access-Control-Allow-Origin": true}});
     }
 
     return (
