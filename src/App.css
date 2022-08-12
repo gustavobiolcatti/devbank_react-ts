@@ -43,3 +43,7 @@ button {
 .title--white {
   color: white;
 }
+
+.toast {
+  font-size: 1.6rem;
+}

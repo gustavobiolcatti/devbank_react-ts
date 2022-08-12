@@ -1,9 +1,10 @@
-import axios from "axios";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/auth";
+import { toast } from "react-toastify";
 import Button from "../../components/Button";
 import InputStyled from "../../components/Input";
-import { AuthContext } from "../../contexts/auth";
+
 import "./style.css";
 
 export default function SignIn() {
@@ -19,11 +20,8 @@ export default function SignIn() {
         e.preventDefault();
 
         if (!name || !email || !password || (password !== confirmPassword)) {
-            console.log('Dados inválidos');
+            toast.error('Dados inválidos');
             return
-        }
-        else {
-            console.log('Dados aprovados');
         }
 
         const data = {
@@ -32,9 +30,7 @@ export default function SignIn() {
             password
         };
 
-        //await createUser(data);
-        await axios.post(`https://integracao-front-back-api.herokuapp.com/user`, data, {headers: {"Access-Control-Allow-Origin": true}})
-        .then(msg => console.log(`Cadastro realizado || msg :>> ${msg}`));
+        await createUser(data);
     }
 
     return (
