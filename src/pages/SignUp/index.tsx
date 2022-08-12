@@ -1,7 +1,9 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button";
 import InputStyled from "../../components/Input";
+import { AuthContext } from "../../contexts/auth";
 import "./style.css";
 
 export default function SignIn() {
@@ -11,9 +13,32 @@ export default function SignIn() {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
+    const { createUser }: any = useContext(AuthContext);
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+
+        if (!name || !email || !password || (password !== confirmPassword)) {
+            console.log('Dados inválidos');
+            return
+        }
+        else {
+            console.log('Dados aprovados');
+        }
+
+        const data = {
+            name,
+            email,
+            password
+        };
+
+        //await createUser(data);
+        await axios.post(`https://integracao-front-back-api.herokuapp.com/user`, data);
+    }
+
     return (
         <div className="signup">
-            <form className="signup__form">
+            <form className="signup__form" onSubmit={handleSubmit}>
                 <h1 className="title title--white">Cadastro</h1>
                 
                 <InputStyled
