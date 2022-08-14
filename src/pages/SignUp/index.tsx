@@ -21,7 +21,7 @@ export default function SignIn() {
 
         if (!name || !email || !password || (password !== confirmPassword)) {
             toast.error('Dados inválidos');
-            return
+            return;
         }
 
         const data = {
