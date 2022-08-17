@@ -1,27 +1,28 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/auth";
 import Button from "../../components/Button";
 import InputStyled from "../../components/Input";
+
 import "./style.css";
-import { toast } from "react-toastify";
 
-export default function SignIn() {
-
+export default function SignIn(): JSX.Element {
+    
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const { login }: any = useContext(AuthContext);
+    const { signIn }: any = useContext(AuthContext);
 
-    const handleSubmit = async (e: any) => {
-        e.preventDefault()
+    const handleSubmit = async (e: any): Promise<void> => {
+        e.preventDefault();
 
         if (!email || !password) {
             toast.error('Dados inválidos');
             return;
         }
 
-        login(email, password);
+        signIn(email, password);
     }
 
     return (

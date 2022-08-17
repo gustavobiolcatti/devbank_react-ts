@@ -1,22 +1,22 @@
-import { useContext, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../contexts/auth";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../contexts/auth";
 import Button from "../../components/Button";
 import InputStyled from "../../components/Input";
 
 import "./style.css";
 
-export default function SignIn() {
+export default function SignIn(): JSX.Element {
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
-    const { createUser }: any = useContext(AuthContext);
+    const { signUp }: any = useContext(AuthContext);
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: any): Promise<void> => {
         e.preventDefault();
 
         if (!name || !email || !password || (password !== confirmPassword)) {
@@ -30,7 +30,7 @@ export default function SignIn() {
             password
         };
 
-        await createUser(data);
+        await signUp(data);
     }
 
     return (
