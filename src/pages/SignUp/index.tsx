@@ -73,7 +73,7 @@ export default function SignIn(): JSX.Element {
 
                 <Button>Cadastrar</Button>
 
-                <Link to='/'>fazer login</Link>
+                <Link to='/' className="form__link">fazer login</Link>
             </form>
         </div>
     )

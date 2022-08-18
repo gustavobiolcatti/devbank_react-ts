@@ -45,7 +45,7 @@ export default function Transfer(): JSX.Element {
                 />
 
                 <ButtonOperation disabled={!(!!value && !!receiver)} onClick={handleCreateOperation}>
-                    Sacar
+                    Transferir
                 </ButtonOperation>
             </Card>
         </div>

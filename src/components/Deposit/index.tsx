@@ -33,7 +33,7 @@ export default function Deposit(): JSX.Element {
                 />
 
                 <ButtonOperation disabled={!(!!value)} onClick={handleCreateOperation}>
-                    Sacar
+                    Depositar
                 </ButtonOperation>
             </Card>
         </div>

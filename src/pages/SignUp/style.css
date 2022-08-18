@@ -18,7 +18,7 @@
     box-shadow: 0 0 50px -20px var(--black);
 }
 
-a {
+.form__link {
     margin-top: 1em;
     color: var(--font-form--signin-signup);
     font-size: 1.2em;

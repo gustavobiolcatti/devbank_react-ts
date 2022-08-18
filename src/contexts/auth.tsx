@@ -41,8 +41,7 @@ export default function AuthProvider({ children }: any): JSX.Element {
     //GET BALANCE
     const getBalance = async () => {
         try {
-            const { data } = await axios.get(`${url}/account/balance/${user.email}`)
-            console.log(data)
+            const { data } = await axios.get(`${url}/account/balance/${user.email}`);
             setBalance(data);
         }
         catch (error: any) {
@@ -51,7 +50,7 @@ export default function AuthProvider({ children }: any): JSX.Element {
     }
 
     //OPERATIONS
-    const createOperation = async (op: string, data: JSON | any) => {
+    const createOperation = async (op: string, data: OperationPayload) => {
         try {
             let opData: OperationPayload = {
                 sender: 0,
@@ -70,6 +69,8 @@ export default function AuthProvider({ children }: any): JSX.Element {
                 await axios.post(`${url}/account/operation`, opData);
 
                 await getBalance();
+                toast.success('Saque realizado');
+
                 break;
 
             case 'deposit':
@@ -82,6 +83,7 @@ export default function AuthProvider({ children }: any): JSX.Element {
                 await axios.post(`${url}/account/operation`, opData);
 
                 await getBalance();
+                toast.success('Depósito realizado');
                 break;
 
             case 'transfer':
@@ -96,6 +98,7 @@ export default function AuthProvider({ children }: any): JSX.Element {
                 await axios.post(`${url}/account/operation`, opData);
 
                 await getBalance();
+                toast.success('Transferência realizada');
                 break;
         
             default:
@@ -107,6 +110,18 @@ export default function AuthProvider({ children }: any): JSX.Element {
             console.error(error.message);
         }
         
+    }
+
+    const getOperations = async () => {
+        try {
+            const data = await axios.get(`${url}/account/operation/${user.email}`);
+            const operations: OperationPayload[] = data.data;
+
+            return  operations;
+        }
+        catch (error: any) {
+            toast.error(`Error :>> ${error.message}`);
+        }
     }
 
     //CREATE USER - SIGNUP
@@ -169,7 +184,8 @@ export default function AuthProvider({ children }: any): JSX.Element {
                 logout,
                 balance,
                 getBalance,
-                createOperation
+                createOperation,
+                getOperations
             }}
         >
             { children }
