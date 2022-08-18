@@ -8,6 +8,7 @@ export const AuthContext = createContext({});
 
 export default function AuthProvider({ children }: any): JSX.Element {
     const url = 'https://integracao-front-back-api.herokuapp.com';
+    const defaultAccount = 0;
 
     const [user, setUser] = useState<any | null>();
     //const [loading, setLoading] = useState(false);
@@ -50,60 +51,12 @@ export default function AuthProvider({ children }: any): JSX.Element {
     }
 
     //OPERATIONS
-    const createOperation = async (op: string, data: OperationPayload) => {
+    const createOperation = async (data: OperationPayload) => {
         try {
-            let opData: OperationPayload = {
-                sender: 0,
-                receiver: 0,
-                value: 0
-            };
+            await axios.post(`${url}/account/operation`, data);
+            await getBalance();
 
-            switch (op) {
-            case 'withdraw':
-                opData = {
-                    sender: user.account.accountNumber,
-                    receiver: 0,
-                    value: data.value
-                };
-
-                await axios.post(`${url}/account/operation`, opData);
-
-                await getBalance();
-                toast.success('Saque realizado');
-
-                break;
-
-            case 'deposit':
-                opData = {
-                    sender: 0,
-                    receiver: user.account.accountNumber,
-                    value: data.value
-                };
-                
-                await axios.post(`${url}/account/operation`, opData);
-
-                await getBalance();
-                toast.success('Depósito realizado');
-                break;
-
-            case 'transfer':
-                opData = {
-                    sender: user.account.accountNumber,
-                    receiver: data.receiver,
-                    value: data.value
-                };
-
-                if (opData.sender === opData.receiver) return toast.info('Não é possível transferir para a própria conta');
-                
-                await axios.post(`${url}/account/operation`, opData);
-
-                await getBalance();
-                toast.success('Transferência realizada');
-                break;
-        
-            default:
-                break;
-        }
+            toast.success('Operação realizada');
         } 
         catch (error: any) {
             toast.error('Erro na transferência');
@@ -185,7 +138,8 @@ export default function AuthProvider({ children }: any): JSX.Element {
                 balance,
                 getBalance,
                 createOperation,
-                getOperations
+                getOperations,
+                defaultAccount
             }}
         >
             { children }

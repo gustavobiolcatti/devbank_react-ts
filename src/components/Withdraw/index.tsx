@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/auth';
+import OperationPayload from '../../interfaces/operationPayload';
 import { ButtonOperation } from '../Button';
 import Card from '../Card';
 import { InputOperation } from '../Input';
@@ -7,16 +8,24 @@ import './style.css';
 
 export default function Withdraw(): JSX.Element {
     
-    const [value, setValue] = useState<number>()
+    const [value, setValue] = useState<number | any>();
 
-    const { createOperation }: any = useContext(AuthContext);
+    const { 
+        createOperation, 
+        defaultAccount, 
+        user: {
+            account: { accountNumber }
+        } 
+    }: any = useContext(AuthContext);
 
     const handleCreateOperation = async () => {
-        const data = {
-            value
+        const data: OperationPayload = {
+            sender: accountNumber,
+            receiver: defaultAccount,
+            value: parseFloat(value.toFixed(2))
         }
         
-        await createOperation('withdraw', data);
+        await createOperation(data);
     }
 
     return (

@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/auth';
+import OperationPayload from '../../interfaces/operationPayload';
 import { ButtonOperation } from '../Button';
 import Card from '../Card';
 import { InputOperation } from '../Input';
@@ -7,18 +8,24 @@ import './style.css';
 
 export default function Transfer(): JSX.Element {
     
-    const [value, setValue] = useState<number>()
-    const [receiver, setReceiver] = useState<number>()
+    const [receiver, setReceiver] = useState<number | any>();
+    const [value, setValue] = useState<number | any>();
 
-    const { createOperation }: any = useContext(AuthContext);
+    const { 
+        createOperation, 
+        user: {
+            account: { accountNumber }
+        } 
+    }: any = useContext(AuthContext);
 
     const handleCreateOperation = async () => {
-        const data = {
-            value,
-            receiver
+        const data: OperationPayload = {
+            sender: accountNumber,
+            receiver: receiver,
+            value: parseFloat(value.toFixed(2))
         }
         
-        await createOperation('transfer', data);
+        await createOperation(data);
     }
 
     return (
@@ -44,7 +51,10 @@ export default function Transfer(): JSX.Element {
                     required={true}
                 />
 
-                <ButtonOperation disabled={!(!!value && !!receiver)} onClick={handleCreateOperation}>
+                <ButtonOperation 
+                    disabled={!(!!value && !!receiver)} 
+                    onClick={handleCreateOperation}
+                >
                     Transferir
                 </ButtonOperation>
             </Card>
