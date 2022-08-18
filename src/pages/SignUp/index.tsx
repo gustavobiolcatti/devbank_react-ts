@@ -2,10 +2,11 @@ import { ChangeEvent, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/auth";
-import Button from "../../components/Button";
-import InputStyled from "../../components/Input";
+import { Button } from "../../components/Button";
 
 import "./style.css";
+import { InputStyled } from "../../components/Input";
+import UserSignupPayload from "../../interfaces/userSignupPayload";
 
 export default function SignIn(): JSX.Element {
 
@@ -24,7 +25,7 @@ export default function SignIn(): JSX.Element {
             return;
         }
 
-        const data = {
+        const data: UserSignupPayload = {
             name,
             email,
             password

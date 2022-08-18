@@ -5,7 +5,9 @@
 }
 
 .content {
+    display: flex;
     width: calc(100% - 200px);
     padding: 0 2em;
     left: 200px;
+    flex-direction: column;
 }

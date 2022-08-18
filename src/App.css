@@ -52,6 +52,14 @@ button {
 
 /*  */
 
+.container {
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+}
+
 .title {
   margin-bottom: 1em;
   text-align: center;

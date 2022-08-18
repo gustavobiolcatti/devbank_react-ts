@@ -1,9 +1,41 @@
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../contexts/auth';
+import { ButtonOperation } from '../Button';
+import Card from '../Card';
+import { InputOperation } from '../Input';
 import './style.css';
 
 export default function Withdraw(): JSX.Element {
+    
+    const [value, setValue] = useState<number>()
+
+    const { createOperation }: any = useContext(AuthContext);
+
+    const handleCreateOperation = async () => {
+        const data = {
+            value
+        }
+        
+        await createOperation('withdraw', data);
+    }
+
     return (
-        <div className="withdraw">
-            Saque
+        <div className="container">
+            <Card>
+                <span className='card__span'>Qual o valor do saque?</span>
+
+                <InputOperation 
+                    type='number'
+                    placeholder='0,00'
+                    value={value}
+                    onChange={e => setValue(parseFloat(e.target.value))}
+                    required={true}
+                />
+
+                <ButtonOperation disabled={!(!!value)} onClick={handleCreateOperation}>
+                    Sacar
+                </ButtonOperation>
+            </Card>
         </div>
     )
 }

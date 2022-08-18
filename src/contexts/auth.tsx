@@ -1,6 +1,8 @@
 import axios from "axios";
 import { createContext, useMemo, useState } from "react";
 import { toast } from "react-toastify";
+import OperationPayload from "../interfaces/operationPayload";
+import UserLoginPayload from "../interfaces/userLoginPayload";
 
 export const AuthContext = createContext({});
 
@@ -8,7 +10,7 @@ export default function AuthProvider({ children }: any): JSX.Element {
     const url = 'https://integracao-front-back-api.herokuapp.com';
 
     const [user, setUser] = useState<any | null>();
-    const [loading, setLoading] = useState(false);
+    //const [loading, setLoading] = useState(false);
     const [balance, setBalance] = useState();
 
     //GET LOCALSTORAGE
@@ -40,6 +42,7 @@ export default function AuthProvider({ children }: any): JSX.Element {
     const getBalance = async () => {
         try {
             const { data } = await axios.get(`${url}/account/balance/${user.email}`)
+            console.log(data)
             setBalance(data);
         }
         catch (error: any) {
@@ -47,10 +50,75 @@ export default function AuthProvider({ children }: any): JSX.Element {
         }
     }
 
-    //CREATE USER - SIGNUP
-    const signUp = async (data: JSON): Promise<void> => {
+    //OPERATIONS
+    const createOperation = async (op: string, data: JSON | any) => {
         try {
-            await axios.post(`${url}/user`, data);
+            let opData: OperationPayload = {
+                sender: 0,
+                receiver: 0,
+                value: 0
+            };
+
+            switch (op) {
+            case 'withdraw':
+                opData = {
+                    sender: user.account.accountNumber,
+                    receiver: 0,
+                    value: data.value
+                };
+
+                await axios.post(`${url}/account/operation`, opData);
+
+                await getBalance();
+                break;
+
+            case 'deposit':
+                opData = {
+                    sender: 0,
+                    receiver: user.account.accountNumber,
+                    value: data.value
+                };
+                
+                await axios.post(`${url}/account/operation`, opData);
+
+                await getBalance();
+                break;
+
+            case 'transfer':
+                opData = {
+                    sender: user.account.accountNumber,
+                    receiver: data.receiver,
+                    value: data.value
+                };
+
+                if (opData.sender === opData.receiver) return toast.info('Não é possível transferir para a própria conta');
+                
+                await axios.post(`${url}/account/operation`, opData);
+
+                await getBalance();
+                break;
+        
+            default:
+                break;
+        }
+        } 
+        catch (error: any) {
+            toast.error('Erro na transferência');
+            console.error(error.message);
+        }
+        
+    }
+
+    //CREATE USER - SIGNUP
+    const signUp = async (data: JSON | any): Promise<void> => {
+        try {
+            await axios.post(`${url}/user`, {...data, account: {}});
+
+            const newUser = await axios.get(`${url}/user/${data.email}`);
+            console.log(newUser.data);
+
+            storageUser(newUser.data);
+            setUser(newUser.data);
 
             toast.success(`Usuário cadastrado`);
         }
@@ -60,18 +128,19 @@ export default function AuthProvider({ children }: any): JSX.Element {
     }
 
     //LOGIN
-    const signIn = async (email: string, password: string): Promise<void> => {
+    const signIn = async (userData: UserLoginPayload): Promise<void> => {
         try {
-            const { data } = await axios.post(`${url}/user/login`, {email, password});
+            const { data } = await axios.post(`${url}/user/login`, userData);
 
             if (!data.user) {
                 toast.error(data.message);
                 return
             };
             
-            toast.success(data.message);
             storageUser(data.user);
             setUser(data.user);
+
+            toast.success(data.message);
         }
         catch (error: any) {
             toast.error(error.message);
@@ -99,7 +168,8 @@ export default function AuthProvider({ children }: any): JSX.Element {
                 signIn,
                 logout,
                 balance,
-                getBalance
+                getBalance,
+                createOperation
             }}
         >
             { children }
