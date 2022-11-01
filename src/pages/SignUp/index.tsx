@@ -1,12 +1,12 @@
-import { ChangeEvent, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/auth";
-import { Button } from "../../components/Button";
 
 import "./style.css";
 import { InputStyled } from "../../components/Input";
 import UserSignupPayload from "../../interfaces/userSignupPayload";
+import { Button } from "../../components/atoms";
 
 export default function SignIn(): JSX.Element {
 
@@ -71,7 +71,11 @@ export default function SignIn(): JSX.Element {
                     required={true}
                 />
 
-                <Button>Cadastrar</Button>
+                <Button
+                    buttonType="default"
+                >
+                    Cadastrar
+                </Button>
 
                 <Link to='/' className="form__link">fazer login</Link>
             </form>

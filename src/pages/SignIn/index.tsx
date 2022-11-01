@@ -2,8 +2,8 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/auth";
-import { Button } from "../../components/Button";
 import { InputStyled } from "../../components/Input";
+import { Button } from "../../components/atoms";
 
 import "./style.css";
 import UserLoginPayload from "../../interfaces/userLoginPayload";
@@ -51,7 +51,11 @@ export default function SignIn(): JSX.Element {
                     required={true}
                 />
 
-                <Button>Entrar</Button>
+                <Button 
+                    buttonType="default"
+                >
+                    Entrar
+                </Button>
 
                 <Link to='/signup' className="form__link">fazer cadastro</Link>
             </form>

@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../contexts/auth';
-import { Operation } from '../../interfaces/operationPayload';
+import { AuthContext } from '../../../contexts/auth';
+import { Operation } from '../../../interfaces/operationPayload';
 
 import './style.css';
 
-export default function Statement(): JSX.Element {
+export const Statement = (): JSX.Element => {
 
     const [operations, setOperations] = useState<Operation[]>()
 
@@ -18,7 +18,7 @@ export default function Statement(): JSX.Element {
         }
 
         loadOperations();
-    }, [])
+    }, [getOperations])
 
     return (
         <div className="container container--table">

@@ -1,12 +1,15 @@
 import { useContext, useState } from 'react';
-import { AuthContext } from '../../contexts/auth';
-import OperationPayload from '../../interfaces/operationPayload';
-import { ButtonOperation } from '../Button';
-import Card from '../Card';
-import { InputOperation } from '../Input';
+
+import { AuthContext } from '../../../contexts/auth';
+
+import OperationPayload from '../../../interfaces/operationPayload';
+
+import { Button, CardSpan, Input } from '../../atoms';
+import { Card } from '../../molecules';
+
 import './style.css';
 
-export default function Transfer(): JSX.Element {
+export const Transfer = (): JSX.Element => {
     
     const [receiver, setReceiver] = useState<number | any>();
     const [value, setValue] = useState<number | any>();
@@ -31,32 +34,39 @@ export default function Transfer(): JSX.Element {
     return (
         <div className="container">
             <Card>
-                <span className='card__span'>Qual o valor da transferência?</span>
+                <CardSpan>Qual o valor da transferência?</CardSpan>
 
-                <InputOperation 
+                <Input 
                     type='number'
                     placeholder='0,00'
                     value={value}
-                    onChange={e => setValue(parseFloat(e.target.value))}
+                    onChange={e => setValue(
+                        parseFloat((e.target as HTMLInputElement).value)
+                    )}
                     required={true}
+                    inputType='default'
                 />
 
-                <span className='card__span'>Qual a conta de destino?</span>
+                <CardSpan>Qual a conta de destino?</CardSpan>
 
-                <InputOperation 
+                <Input 
                     type='number'
                     placeholder='0'
                     value={receiver}
-                    onChange={e => setReceiver(parseInt(e.target.value))}
+                    onChange={e => setReceiver(
+                        parseInt((e.target as HTMLInputElement).value)
+                    )}
                     required={true}
+                    inputType='default'
                 />
 
-                <ButtonOperation 
+                <Button 
                     disabled={!(!!value && !!receiver)} 
                     onClick={handleCreateOperation}
+                    buttonType="operation"
                 >
                     Transferir
-                </ButtonOperation>
+                </Button>
             </Card>
         </div>
     )

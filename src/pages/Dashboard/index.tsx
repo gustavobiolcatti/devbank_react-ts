@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import Deposit from "../../components/Deposit";
 import Header from "../../components/Header";
 import Menu from "../../components/Menu";
-import Statement from "../../components/Statement";
-import Transfer from "../../components/Transfer";
-import Withdraw from "../../components/Withdraw";
+import { Deposit } from "../../components/organisms/Deposit";
+import { Statement } from "../../components/organisms/Statement";
+import { Transfer } from "../../components/organisms/Transfer";
+import { Withdraw } from "../../components/organisms/Withdraw";
 
 import './style.css';
 

@@ -1,12 +1,15 @@
 import { useContext, useState } from 'react';
-import { AuthContext } from '../../contexts/auth';
-import OperationPayload from '../../interfaces/operationPayload';
-import { ButtonOperation } from '../Button';
-import Card from '../Card';
-import { InputOperation } from '../Input';
+
+import { AuthContext } from '../../../contexts/auth';
+
+import OperationPayload from '../../../interfaces/operationPayload';
+
+import { Button, CardSpan, Input } from '../../atoms';
+import { Card } from '../../molecules';
+
 import './style.css';
 
-export default function Deposit(): JSX.Element {
+export const Deposit = (): JSX.Element => {
     
     const [value, setValue] = useState<number | any>();
 
@@ -31,19 +34,26 @@ export default function Deposit(): JSX.Element {
     return (
         <div className="container">
             <Card>
-                <span className='card__span'>Qual o valor do depósito?</span>
+                <CardSpan>Qual o valor do depósito?</CardSpan>
 
-                <InputOperation 
+                <Input 
                     type='number'
                     placeholder='0,00'
                     value={value}
-                    onChange={e => setValue(parseFloat(e.target.value))}
+                    onChange={e => setValue(
+                        parseFloat((e.target as HTMLInputElement).value))
+                    }
                     required={true}
+                    inputType='default'
                 />
 
-                <ButtonOperation disabled={!(!!value)} onClick={handleCreateOperation}>
+                <Button 
+                    disabled={!(!!value)}
+                    onClick={handleCreateOperation}
+                    buttonType="operation"
+                >
                     Depositar
-                </ButtonOperation>
+                </Button>
             </Card>
         </div>
     )
