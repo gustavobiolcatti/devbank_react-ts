@@ -2,8 +2,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/auth";
-import { InputStyled } from "../../components/Input";
-import { Button } from "../../components/atoms";
+import { Button, Input } from "../../components/atoms";
 
 import "./style.css";
 import UserLoginPayload from "../../interfaces/userLoginPayload";
@@ -35,20 +34,22 @@ export default function SignIn(): JSX.Element {
             <form className="signin__form" onSubmit={handleSubmit}>
                 <h1 className="title title--white">Login</h1>
                 
-                <InputStyled
+                <Input
                     type="e-mail"
                     placeholder="E-mail"
                     value={email}
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={e => setEmail((e.target as HTMLInputElement).value)}
                     required={true}
+                    inputType='default'
                 />
-                <InputStyled
+                <Input
                     type="password"
                     placeholder="Senha"
                     value={password}
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={e => setPassword((e.target as HTMLInputElement).value)}
                     autoFocus={true}
                     required={true}
+                    inputType='default'
                 />
 
                 <Button 

@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
+
 import { AuthContext } from '../../../contexts/auth';
+
 import { Operation } from '../../../interfaces/operationPayload';
 
 import './style.css';

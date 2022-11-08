@@ -2,8 +2,8 @@ import InputProps from './types'
 
 import * as S from './styles'
 
-const Input: React.FC<InputProps> = ({ inputType, children }) => {
-  return <S.Input inputType={inputType}> { children } </S.Input>
+const Input: React.FC<InputProps> = ({ inputType, ...rest }) => {
+  return <S.Input inputType={inputType} {...rest}></S.Input>
 }
 
 export default Input;

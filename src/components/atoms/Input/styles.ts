@@ -17,9 +17,9 @@ export const Input = styled.input<InputProps>`
     color: ${colors.white};  
     font-size: 1.5em;
     border-bottom: 1px solid #ffffff68;
-
+    
     ::placeholder {
-        color: ${colors.white};
+      color: ${colors.white};
     }
 
     &:focus {

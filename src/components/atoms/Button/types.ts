@@ -1,5 +1,7 @@
-type ButtonProps = React.HTMLProps<HTMLButtonElement> & {
-  buttonType?: 'default' | 'operation',
+import { ButtonHTMLAttributes } from "react";
+
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  buttonType: 'default' | 'operation',
 }
 
 export default ButtonProps;

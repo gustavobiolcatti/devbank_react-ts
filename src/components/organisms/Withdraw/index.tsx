@@ -4,10 +4,14 @@ import { AuthContext } from '../../../contexts/auth';
 
 import OperationPayload from '../../../interfaces/operationPayload';
 
-import { Button, CardSpan, Input } from '../../atoms';
+import { 
+    Button, 
+    CardSpan, 
+    Input 
+} from '../../atoms';
 import { Card } from '../../molecules';
 
-import './style.css';
+import * as S from "./styles";
 
 export const Withdraw = (): JSX.Element =>  {
     
@@ -32,7 +36,7 @@ export const Withdraw = (): JSX.Element =>  {
     }
 
     return (
-        <div className="container">
+        <S.Container>
             <Card>
                 <CardSpan>Qual o valor do saque?</CardSpan>
 
@@ -44,7 +48,7 @@ export const Withdraw = (): JSX.Element =>  {
                         parseFloat((e.target as HTMLInputElement).value)
                     )}
                     required={true}
-                    inputType='default'
+                    inputType='operation'
                 />
 
                 <Button 
@@ -55,6 +59,6 @@ export const Withdraw = (): JSX.Element =>  {
                     Sacar
                 </Button>
             </Card>
-        </div>
+        </S.Container>
     )
 }

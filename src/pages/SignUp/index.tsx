@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/auth";
 
-import "./style.css";
-import { InputStyled } from "../../components/Input";
 import UserSignupPayload from "../../interfaces/userSignupPayload";
-import { Button } from "../../components/atoms";
+import { Button, Input } from "../../components/atoms";
+
+import "./style.css";
 
 export default function SignIn(): JSX.Element {
 
@@ -39,36 +39,40 @@ export default function SignIn(): JSX.Element {
             <form className="signup__form" onSubmit={handleSubmit}>
                 <h1 className="title title--white">Cadastro</h1>
                 
-                <InputStyled
+                <Input
                     type="text"
                     placeholder="Nome completo"
                     value={name}
-                    onChange={e => setName(e.target.value)}
+                    onChange={e => setName((e.target as HTMLInputElement).value)}
                     autoFocus={true}
                     required={true}
+                    inputType='default'
                 />
-                <InputStyled
+                <Input
                     type="e-mail"
                     placeholder="E-mail"
                     value={email}
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={e => setEmail((e.target as HTMLInputElement).value)}
                     required={true}
+                    inputType='default'
                 />
-                <InputStyled
+                <Input
                     type="password"
                     placeholder="Senha"
                     value={password}
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={e => setPassword((e.target as HTMLInputElement).value)}
                     autoFocus={true}
                     required={true}
+                    inputType='default'
                 />
-                <InputStyled
+                <Input
                     type="password"
                     placeholder="Confirmar senha"
                     value={confirmPassword}
-                    onChange={e => setConfirmPassword(e.target.value)}
+                    onChange={e => setConfirmPassword((e.target as HTMLInputElement).value)}
                     autoFocus={true}
                     required={true}
+                    inputType='default'
                 />
 
                 <Button

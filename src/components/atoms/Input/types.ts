@@ -1,4 +1,6 @@
-type InputProps = React.HTMLProps<HTMLInputElement> & {
+import { InputHTMLAttributes } from "react";
+
+type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   inputType: 'default' | 'operation',
 }
 

@@ -7,7 +7,7 @@ import OperationPayload from '../../../interfaces/operationPayload';
 import { Button, CardSpan, Input } from '../../atoms';
 import { Card } from '../../molecules';
 
-import './style.css';
+import * as S from "./styles";
 
 export const Deposit = (): JSX.Element => {
     
@@ -32,7 +32,7 @@ export const Deposit = (): JSX.Element => {
     }
 
     return (
-        <div className="container">
+        <S.Container>
             <Card>
                 <CardSpan>Qual o valor do depósito?</CardSpan>
 
@@ -44,7 +44,7 @@ export const Deposit = (): JSX.Element => {
                         parseFloat((e.target as HTMLInputElement).value))
                     }
                     required={true}
-                    inputType='default'
+                    inputType='operation'
                 />
 
                 <Button 
@@ -55,6 +55,6 @@ export const Deposit = (): JSX.Element => {
                     Depositar
                 </Button>
             </Card>
-        </div>
+        </S.Container>
     )
 }

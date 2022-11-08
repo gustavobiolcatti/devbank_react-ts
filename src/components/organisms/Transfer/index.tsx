@@ -7,7 +7,7 @@ import OperationPayload from '../../../interfaces/operationPayload';
 import { Button, CardSpan, Input } from '../../atoms';
 import { Card } from '../../molecules';
 
-import './style.css';
+import * as S from "./styles";
 
 export const Transfer = (): JSX.Element => {
     
@@ -32,7 +32,7 @@ export const Transfer = (): JSX.Element => {
     }
 
     return (
-        <div className="container">
+        <S.Container>
             <Card>
                 <CardSpan>Qual o valor da transferência?</CardSpan>
 
@@ -44,7 +44,7 @@ export const Transfer = (): JSX.Element => {
                         parseFloat((e.target as HTMLInputElement).value)
                     )}
                     required={true}
-                    inputType='default'
+                    inputType='operation'
                 />
 
                 <CardSpan>Qual a conta de destino?</CardSpan>
@@ -57,7 +57,7 @@ export const Transfer = (): JSX.Element => {
                         parseInt((e.target as HTMLInputElement).value)
                     )}
                     required={true}
-                    inputType='default'
+                    inputType='operation'
                 />
 
                 <Button 
@@ -68,6 +68,6 @@ export const Transfer = (): JSX.Element => {
                     Transferir
                 </Button>
             </Card>
-        </div>
+        </S.Container>
     )
 }

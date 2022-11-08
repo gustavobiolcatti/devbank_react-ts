@@ -1,19 +1,22 @@
 import { Route, Routes } from "react-router-dom";
-import Header from "../../components/Header";
-import Menu from "../../components/Menu";
-import { Deposit } from "../../components/organisms/Deposit";
-import { Statement } from "../../components/organisms/Statement";
-import { Transfer } from "../../components/organisms/Transfer";
-import { Withdraw } from "../../components/organisms/Withdraw";
 
-import './style.css';
+import { Header, Menu } from "../../components/molecules";
+
+import { 
+    Deposit, 
+    Statement,
+    Transfer,
+    Withdraw
+} from "../../components/organisms";
+
+import * as S from "./styles";
 
 export default function Dashboard(): JSX.Element {
     return (
-        <div className="dashboard">
+        <S.Container>
             <Menu />
 
-            <section className="content">
+            <S.Content>
                 <Header />
 
                 <Routes>
@@ -22,7 +25,7 @@ export default function Dashboard(): JSX.Element {
                     <Route path="/deposit" element={<Deposit />}/>
                     <Route path="/transfer" element={<Transfer />}/>
                 </Routes>  
-            </section>
-        </div>
+            </S.Content>
+        </S.Container>
     )
 }

@@ -6,7 +6,7 @@ import { BiTransfer } from 'react-icons/bi';
 
 import './style.css';
 
-export default function Menu(): JSX.Element {
+const Menu = (): JSX.Element => {
     return (
         <div className="menu">
             <h1 className='menu__title'>Bank</h1>
@@ -30,3 +30,5 @@ export default function Menu(): JSX.Element {
         </div>
     )
 }
+
+export default Menu;
