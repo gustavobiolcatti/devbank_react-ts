@@ -1,28 +1,31 @@
 import { Route, Routes } from "react-router-dom";
-import Deposit from "../../components/Deposit";
-import Header from "../../components/Header";
-import Menu from "../../components/Menu";
-import Statement from "../../components/Statement";
-import Transfer from "../../components/Transfer";
-import Withdraw from "../../components/Withdraw";
 
-import './style.css';
+import Header from "components/molecules/Header";
+import Menu from "components/molecules/Menu";
+import Deposit from "components/organisms/Deposit";
+import Statement from "components/organisms/Statement";
+import Transfer from "components/organisms/Transfer";
+import Withdraw from "components/organisms/Withdraw";
 
-export default function Dashboard(): JSX.Element {
-    return (
-        <div className="dashboard">
-            <Menu />
+import * as S from "./styles";
 
-            <section className="content">
-                <Header />
+const Dashboard = (): JSX.Element => {
+  return (
+    <S.Container>
+      <Menu />
 
-                <Routes>
-                    <Route path="/statement" element={<Statement />}/>
-                    <Route path="/withdraw" element={<Withdraw />}/>
-                    <Route path="/deposit" element={<Deposit />}/>
-                    <Route path="/transfer" element={<Transfer />}/>
-                </Routes>  
-            </section>
-        </div>
-    )
-}
+      <S.Content>
+        <Header />
+
+        <Routes>
+          <Route path="/statement" element={<Statement />} />
+          <Route path="/withdraw" element={<Withdraw />} />
+          <Route path="/deposit" element={<Deposit />} />
+          <Route path="/transfer" element={<Transfer />} />
+        </Routes>
+      </S.Content>
+    </S.Container>
+  );
+};
+
+export default Dashboard;

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { createContext, useMemo, useState } from "react";
 import { toast } from "react-toastify";
-import OperationPayload from "../interfaces/operationPayload";
-import UserLoginPayload from "../interfaces/userLoginPayload";
+import OperationPayload from "../models/operationPayload";
+import UserLoginPayload from "../models/userLoginPayload";
 
 export const AuthContext = createContext({});
 

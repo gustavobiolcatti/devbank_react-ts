@@ -1,80 +1,93 @@
-import { ChangeEvent, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AuthContext } from "../../contexts/auth";
-import { Button } from "../../components/Button";
 
-import "./style.css";
-import { InputStyled } from "../../components/Input";
-import UserSignupPayload from "../../interfaces/userSignupPayload";
+import { AuthContext } from "contexts/auth";
 
-export default function SignIn(): JSX.Element {
+import UserSignupPayload from "models/userSignupPayload";
 
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
+import Button from "components/atoms/Button";
+import Input from "components/atoms/Input";
 
-    const { signUp }: any = useContext(AuthContext);
+import * as S from "./styles";
+import Title from "../../components/atoms/Title";
 
-    const handleSubmit = async (e: any): Promise<void> => {
-        e.preventDefault();
+const SignIn = (): JSX.Element => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-        if (!name || !email || !password || (password !== confirmPassword)) {
-            toast.error('Dados inválidos');
-            return;
-        }
+  const { signUp }: any = useContext(AuthContext);
 
-        const data: UserSignupPayload = {
-            name,
-            email,
-            password
-        };
+  const handleSubmit = async (e: any): Promise<void> => {
+    e.preventDefault();
 
-        await signUp(data);
+    if (!name || !email || !password || password !== confirmPassword) {
+      toast.error("Dados inválidos");
+      return;
     }
 
-    return (
-        <div className="signup">
-            <form className="signup__form" onSubmit={handleSubmit}>
-                <h1 className="title title--white">Cadastro</h1>
-                
-                <InputStyled
-                    type="text"
-                    placeholder="Nome completo"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    autoFocus={true}
-                    required={true}
-                />
-                <InputStyled
-                    type="e-mail"
-                    placeholder="E-mail"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    required={true}
-                />
-                <InputStyled
-                    type="password"
-                    placeholder="Senha"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    autoFocus={true}
-                    required={true}
-                />
-                <InputStyled
-                    type="password"
-                    placeholder="Confirmar senha"
-                    value={confirmPassword}
-                    onChange={e => setConfirmPassword(e.target.value)}
-                    autoFocus={true}
-                    required={true}
-                />
+    const data: UserSignupPayload = {
+      name,
+      email,
+      password,
+    };
 
-                <Button>Cadastrar</Button>
+    await signUp(data);
+  };
 
-                <Link to='/' className="form__link">fazer login</Link>
-            </form>
-        </div>
-    )
-}
+  return (
+    <S.Container>
+      <S.Form onSubmit={handleSubmit}>
+        <Title secondary>Cadastro</Title>
+
+        <Input
+          type="text"
+          placeholder="Nome completo"
+          value={name}
+          onChange={(e) => setName((e.target as HTMLInputElement).value)}
+          autoFocus={true}
+          required={true}
+          inputType="default"
+        />
+        <Input
+          type="e-mail"
+          placeholder="E-mail"
+          value={email}
+          onChange={(e) => setEmail((e.target as HTMLInputElement).value)}
+          required={true}
+          inputType="default"
+        />
+        <Input
+          type="password"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword((e.target as HTMLInputElement).value)}
+          autoFocus={true}
+          required={true}
+          inputType="default"
+        />
+        <Input
+          type="password"
+          placeholder="Confirmar senha"
+          value={confirmPassword}
+          onChange={(e) =>
+            setConfirmPassword((e.target as HTMLInputElement).value)
+          }
+          autoFocus={true}
+          required={true}
+          inputType="default"
+        />
+
+        <Button buttonType="default">Cadastrar</Button>
+
+        <Link to="/" className="form__link">
+          fazer login
+        </Link>
+      </S.Form>
+    </S.Container>
+  );
+};
+
+export default SignIn;
