@@ -1,65 +1,70 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AuthContext } from "../../contexts/auth";
-import { Button, Input } from "../../components/atoms";
 
-import "./style.css";
-import UserLoginPayload from "../../interfaces/userLoginPayload";
+import { AuthContext } from "contexts/auth";
 
-export default function SignIn(): JSX.Element {
-    
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+import UserLoginPayload from "models/userLoginPayload";
 
-    const { signIn }: any = useContext(AuthContext);
+import Input from "components/atoms/Input";
+import Button from "components/atoms/Button";
+import Title from "components/atoms/Title";
 
-    const handleSubmit = async (e: any): Promise<void> => {
-        e.preventDefault();
+import * as S from "./styles";
 
-        if (!email || !password) {
-            toast.error('Dados inválidos');
-            return;
-        }
+const SignIn = (): JSX.Element => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-        const data: UserLoginPayload = {
-            email, password
-        }
+  const { signIn }: any = useContext(AuthContext);
 
-        signIn(data);
+  const handleSubmit = async (e: any): Promise<void> => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      toast.error("Dados inválidos");
+      return;
     }
 
-    return (
-        <div className="signin">
-            <form className="signin__form" onSubmit={handleSubmit}>
-                <h1 className="title title--white">Login</h1>
-                
-                <Input
-                    type="e-mail"
-                    placeholder="E-mail"
-                    value={email}
-                    onChange={e => setEmail((e.target as HTMLInputElement).value)}
-                    required={true}
-                    inputType='default'
-                />
-                <Input
-                    type="password"
-                    placeholder="Senha"
-                    value={password}
-                    onChange={e => setPassword((e.target as HTMLInputElement).value)}
-                    autoFocus={true}
-                    required={true}
-                    inputType='default'
-                />
+    const data: UserLoginPayload = {
+      email,
+      password,
+    };
 
-                <Button 
-                    buttonType="default"
-                >
-                    Entrar
-                </Button>
+    signIn(data);
+  };
 
-                <Link to='/signup' className="form__link">fazer cadastro</Link>
-            </form>
-        </div>
-    )
-}
+  return (
+    <S.Container>
+      <S.Form onSubmit={handleSubmit}>
+        <Title secondary>Login</Title>
+
+        <Input
+          type="e-mail"
+          placeholder="E-mail"
+          value={email}
+          onChange={(e) => setEmail((e.target as HTMLInputElement).value)}
+          required={true}
+          inputType="default"
+        />
+        <Input
+          type="password"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword((e.target as HTMLInputElement).value)}
+          autoFocus={true}
+          required={true}
+          inputType="default"
+        />
+
+        <Button buttonType="default">Entrar</Button>
+
+        <Link to="/signup" className="form__link">
+          fazer cadastro
+        </Link>
+      </S.Form>
+    </S.Container>
+  );
+};
+
+export default SignIn;

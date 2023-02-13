@@ -1,9 +1,10 @@
+import colors from 'assets/colors';
 import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
   height: 100%;
-  background-color: var(--bg-dashboard);
+  background-color: ${colors['light-gray']};
 `
 
 export const Content = styled.div`

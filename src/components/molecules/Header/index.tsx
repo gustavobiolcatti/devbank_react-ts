@@ -1,11 +1,10 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-import { AuthContext } from "../../../contexts/auth"
-
 import { FiSettings, FiLogOut } from 'react-icons/fi';
 
-import colors from "../../assets/colors";
+import { AuthContext } from "contexts/auth";
+
+import colors from "assets/colors";
 
 import * as S from "./styles";
 

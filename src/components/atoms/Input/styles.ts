@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-import colors from "../../assets/colors";
+import colors from "assets/colors";
 
 import InputProps from "./types";
 
@@ -16,15 +16,15 @@ export const Input = styled.input<InputProps>`
   ${({ inputType }) => inputType === 'default' && css`
     color: ${colors.white};  
     font-size: 1.5em;
-    border-bottom: 1px solid #ffffff68;
+    border-bottom: 1px solid ${colors.transparent};
     
     ::placeholder {
       color: ${colors.white};
     }
 
     &:focus {
-        border-bottom: 1px solid ${colors.white};
-        opacity: 1;
+      border-bottom: 1px solid ${colors.white};
+      opacity: 1;
     }
   `}
 
@@ -35,11 +35,11 @@ export const Input = styled.input<InputProps>`
     text-align: center;
 
     ::placeholder {
-        text-align: center;
+      text-align: center;
     }
 
     &:focus {
-        opacity: 1;
+      opacity: 1;
     }
   `}
 `

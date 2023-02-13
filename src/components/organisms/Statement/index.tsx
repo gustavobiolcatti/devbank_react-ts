@@ -1,62 +1,64 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from "react";
 
-import { AuthContext } from '../../../contexts/auth';
+import { AuthContext } from "contexts/auth";
 
-import { Operation } from '../../../interfaces/operationPayload';
+import { Operation } from "models/operationPayload";
 
-import './style.css';
+import * as S from "./styles";
 
-export const Statement = (): JSX.Element => {
+const Statement = (): JSX.Element => {
+  const [operations, setOperations] = useState<Operation[]>();
 
-    const [operations, setOperations] = useState<Operation[]>()
+  const {
+    getOperations,
+    user: {
+      account: { accountNumber },
+    },
+  }: any = useContext(AuthContext);
 
-    const { getOperations, user: {account: { accountNumber }} }: any = useContext(AuthContext);
+  useEffect(() => {
+    const loadOperations = async () => {
+      const data = await getOperations();
 
-    useEffect(() => {
-        const loadOperations = async () => {
-            const data = await getOperations();
+      setOperations(data);
+    };
 
-            setOperations(data);
-        }
+    loadOperations();
+  }, [getOperations]);
 
-        loadOperations();
-    }, [getOperations])
+  return (
+    <S.Container>
+      {operations ? (
+        <S.Table>
+          <thead>
+            <tr>
+              <S.TableColumn>Valor</S.TableColumn>
+              <S.TableColumn>Tipo</S.TableColumn>
+              <S.TableColumn>Data</S.TableColumn>
+            </tr>
+          </thead>
+          <tbody>
+            {operations.map((op) => {
+              const date = new Date(op.createdAt);
+              return (
+                <tr key={op.id}>
+                  <S.TableColumn>{op.value}</S.TableColumn>
+                  <S.TableColumn
+                    type={op.receiver === accountNumber ? "income" : "expense"}
+                  >
+                    {op.receiver === accountNumber ? "Entrada" : "Saída"}
+                  </S.TableColumn>
+                  <S.TableColumn>{date.toLocaleDateString()}</S.TableColumn>
+                </tr>
+              );
+            })}
+          </tbody>
+        </S.Table>
+      ) : (
+        <p>Não tem op</p>
+      )}
+    </S.Container>
+  );
+};
 
-    return (
-        <div className="container container--table">
-            {
-                operations
-                ?
-
-                <table className='statement__table'>
-                    <thead>
-                        <tr>
-                            <th>Valor</th>
-                            <th>Tipo</th>
-                            <th>Data</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            operations.map(op => {
-                                const date = new Date(op.createdAt)
-                                return (
-                                    <tr key={op.id} className=''>
-                                        <td>{op.value}</td>
-                                        <td className={op.receiver === accountNumber ? "statement__value--income" : "statement__value--expense"}>
-                                            { op.receiver === accountNumber ? 'Entrada' : 'Saída' }
-                                        </td>
-                                        <td>{date.toLocaleDateString()}</td>
-                                    </tr>
-                                );
-                            })
-                        }
-                    </tbody>
-                </table>
-                :
-
-                <p>Não tem op</p>
-            }
-        </div>
-    )
-}
+export default Statement;

@@ -1,14 +1,16 @@
 import styled from "styled-components";
 
+import colors from "assets/colors";
+
 export const Loading = styled.div`
   position: absolute;
   width: 80px;
   height: 80px;
   top: 45%;
   left: 45%;
-  border: 7px solid var(--border-loading);
+  border: 7px solid ${colors.gray};
   border-radius: 50%;
-  border-top-color: var(--border-loading--secondary);
+  border-top-color: ${colors.blue};
   animation: rotate 1s infinite;
   margin: auto;
 
