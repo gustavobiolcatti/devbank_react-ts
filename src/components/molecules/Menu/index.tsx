@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import { RiFileList3Line } from "react-icons/ri";
-import { BsCashCoin, BsCashStack } from "react-icons/bs";
+import { Link } from 'react-router-dom';
+import { RiFileList3Line } from 'react-icons/ri';
+import { BsCashCoin, BsCashStack } from 'react-icons/bs';
 
-import { BiTransfer } from "react-icons/bi";
+import { BiTransfer } from 'react-icons/bi';
 
-import * as S from "./styles";
+import * as S from './styles';
 
 const Menu = (): JSX.Element => {
   return (

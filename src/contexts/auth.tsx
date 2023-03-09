@@ -1,148 +1,128 @@
-import axios from "axios";
-import { createContext, useMemo, useState } from "react";
-import { toast } from "react-toastify";
-import OperationPayload from "../models/operationPayload";
-import UserLoginPayload from "../models/userLoginPayload";
+import { createContext, useContext, useMemo, useState, ReactNode } from 'react';
+import { toast } from 'react-toastify';
 
-export const AuthContext = createContext({});
+import api from 'services/api';
 
-export default function AuthProvider({ children }: any): JSX.Element {
-    const url = 'https://integracao-front-back-api.herokuapp.com';
-    const defaultAccount = 0;
+import { User } from 'models/user';
+import { SignInProps } from 'models/signin';
+import { SignUpProps } from 'models/signup';
 
-    const [user, setUser] = useState<any | null>();
-    //const [loading, setLoading] = useState(false);
-    const [balance, setBalance] = useState();
-
-    //GET LOCALSTORAGE
-    const memorizedUser = useMemo(() => {
-        if (!user) {
-            const userStorage = localStorage.getItem('user');
-            const userParsed  = userStorage && JSON.parse(userStorage);
-
-            setUser(userParsed);
-
-            return userParsed;
-        }
-
-        return user;
-    }, [user])
-
-    //SAVE LOCALSTORAGE
-    const storageUser = (data: JSON) => {
-        try {
-            const userStringfy = JSON.stringify(data);
-            localStorage.setItem('user', userStringfy);
-        } 
-        catch (error: any) {
-            console.log(`message :>> ${error.message}`);
-        }
-    }
-
-    //GET BALANCE
-    const getBalance = async () => {
-        try {
-            const { data } = await axios.get(`${url}/account/balance/${user.email}`);
-            setBalance(data);
-        }
-        catch (error: any) {
-            toast.error(`Error :>> ${error.message}`);
-        }
-    }
-
-    //OPERATIONS
-    const createOperation = async (data: OperationPayload) => {
-        try {
-            await axios.post(`${url}/account/operation`, data);
-            await getBalance();
-
-            toast.success('Operação realizada');
-        } 
-        catch (error: any) {
-            toast.error('Erro na transferência');
-            console.error(error.message);
-        }
-        
-    }
-
-    const getOperations = async () => {
-        try {
-            const data = await axios.get(`${url}/account/operation/${user.email}`);
-            const operations: OperationPayload[] = data.data;
-
-            return  operations;
-        }
-        catch (error: any) {
-            toast.error(`Error :>> ${error.message}`);
-        }
-    }
-
-    //CREATE USER - SIGNUP
-    const signUp = async (data: JSON | any): Promise<void> => {
-        try {
-            await axios.post(`${url}/user`, {...data, account: {}});
-
-            const newUser = await axios.get(`${url}/user/${data.email}`);
-            console.log(newUser.data);
-
-            storageUser(newUser.data);
-            setUser(newUser.data);
-
-            toast.success(`Usuário cadastrado`);
-        }
-        catch (error: any) {
-            toast.error(`Error :>> ${error.message}`);
-        }
-    }
-
-    //LOGIN
-    const signIn = async (userData: UserLoginPayload): Promise<void> => {
-        try {
-            const { data } = await axios.post(`${url}/user/login`, userData);
-
-            if (!data.user) {
-                toast.error(data.message);
-                return
-            };
-            
-            storageUser(data.user);
-            setUser(data.user);
-
-            toast.success(data.message);
-        }
-        catch (error: any) {
-            toast.error(error.message);
-        }
-    }
-
-    //LOGOUT
-    const logout = () => {
-        try {
-            localStorage.removeItem('user');
-            setUser(null);
-            toast.success('Usuário deslogado');
-        } 
-        catch (error: any) {
-            toast.error(error.message);
-        }
-    }
-
-    return (
-        <AuthContext.Provider 
-            value={{
-                signed: !!memorizedUser,
-                user,
-                signUp, 
-                signIn,
-                logout,
-                balance,
-                getBalance,
-                createOperation,
-                getOperations,
-                defaultAccount
-            }}
-        >
-            { children }
-        </AuthContext.Provider>
-    )
+type AuthContextType = {
+  signed: boolean;
+  user?: User;
+  signUp: (user: SignUpProps) => Promise<void>;
+  signIn: (user: SignInProps) => Promise<void>;
+  logout: () => void;
+  balance: number;
+  setBalance: (value: number) => void;
+  defaultAccount: number;
 };
+type AuthProviderProps = {
+  children: ReactNode;
+};
+
+export const AuthContext = createContext({} as AuthContextType);
+
+export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
+  const defaultAccount = 0;
+
+  // const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<User | undefined>();
+  const [balance, setBalance] = useState(0);
+
+  const memorizedUser = useMemo(() => {
+    if (!user) {
+      const userStorage = localStorage.getItem('user');
+      const userParsed = userStorage && JSON.parse(userStorage);
+
+      setUser(userParsed);
+
+      return userParsed;
+    }
+
+    return user;
+  }, [user]);
+
+  const storageUser = (data: JSON) => {
+    try {
+      const userStringfy = JSON.stringify(data);
+      localStorage.setItem('user', userStringfy);
+    } catch (error: any) {
+      console.log(`message :>> ${error.message}`);
+    }
+  };
+
+  const signUp = async (user: SignUpProps): Promise<void> => {
+    try {
+      await api({
+        method: 'post',
+        path: '/user',
+        data: { ...user, account: {} },
+      });
+      const { response: newUser } = await api({
+        method: 'get',
+        path: '/user',
+        data: user?.email,
+      });
+      console.log(newUser.data);
+
+      storageUser(newUser.data);
+      setUser(newUser.data);
+
+      toast.success(`Usuário cadastrado`);
+    } catch (error) {
+      toast.error(`Erro ao cadastrar usuário`);
+    }
+  };
+
+  const signIn = async (user: SignInProps): Promise<void> => {
+    try {
+      const { response } = await api({
+        method: 'post',
+        path: '/user/login',
+        data: user,
+      });
+
+      if (!response.user) {
+        toast.error(response.message);
+        return;
+      }
+
+      storageUser(response.user);
+      setUser(response.user);
+
+      toast.success(response.message);
+    } catch (error) {
+      toast.error('Erro ao fazer login');
+    }
+  };
+
+  const logout = (): void => {
+    try {
+      localStorage.removeItem('user');
+      setUser(undefined);
+      toast.success('Usuário deslogado');
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        signed: !!memorizedUser,
+        user,
+        signUp,
+        signIn,
+        logout,
+        balance,
+        setBalance,
+        defaultAccount,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);

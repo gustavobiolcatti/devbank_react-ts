@@ -1,8 +1,8 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
-import colors from "assets/colors";
+import colors from 'assets/colors';
 
-import ButtonProps from "./types";
+import ButtonProps from './types';
 
 export const Button = styled.button<ButtonProps>`
   margin-top: 3em;
@@ -10,23 +10,27 @@ export const Button = styled.button<ButtonProps>`
   border: none;
   font-size: 1.5em;
   font-weight: bold;
-  opacity: .75;
-  transition: .2s;
+  opacity: 0.75;
+  transition: 0.2s;
 
   :hover {
-    transform: scale(.98);
+    transform: scale(0.98);
     opacity: 1;
   }
 
-  ${({ buttonType }) => buttonType === 'default' && css`
-    background-color: ${colors.white};
-    border-radius: 5px;
-    color: ${colors.black};
-  `}
+  ${({ buttonType }) =>
+    buttonType === 'default' &&
+    css`
+      background-color: ${colors.white};
+      border-radius: 5px;
+      color: ${colors.black};
+    `}
 
-  ${({ buttonType }) => buttonType === 'operation' && css`
-    background-color: ${colors.purple};
-    border-radius: 15px;
-    color: ${colors.white};
-  `}
-`
+  ${({ buttonType }) =>
+    buttonType === 'operation' &&
+    css`
+      background-color: ${colors.purple};
+      border-radius: 15px;
+      color: ${colors.white};
+    `}
+`;

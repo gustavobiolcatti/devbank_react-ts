@@ -1,6 +1,6 @@
 const colors = {
   'light-gray': '#e0e0e0',
-  
+
   aliceblue: '#f0f8ff',
   black: '#000000',
   blue: '#003070',
@@ -11,6 +11,6 @@ const colors = {
   red: '#c40000',
   transparent: '#ffffff68',
   white: '#FFFFFF',
-}
+};
 
 export default colors;

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const CardSpan = styled.span`
   margin-top: 2em;
@@ -7,4 +7,4 @@ export const CardSpan = styled.span`
   :first-child {
     margin-top: 0;
   }
-`
+`;

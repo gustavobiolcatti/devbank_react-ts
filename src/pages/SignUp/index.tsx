@@ -1,34 +1,34 @@
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-import { AuthContext } from "contexts/auth";
+import { useAuth } from 'contexts/auth';
 
-import UserSignupPayload from "models/userSignupPayload";
+import { SignUpProps } from 'models/signup';
 
-import Button from "components/atoms/Button";
-import Input from "components/atoms/Input";
+import Button from 'components/atoms/Button';
+import Input from 'components/atoms/Input';
 
-import * as S from "./styles";
-import Title from "../../components/atoms/Title";
+import * as S from './styles';
+import Title from '../../components/atoms/Title';
 
 const SignIn = (): JSX.Element => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const { signUp }: any = useContext(AuthContext);
+  const { signUp } = useAuth();
 
   const handleSubmit = async (e: any): Promise<void> => {
     e.preventDefault();
 
     if (!name || !email || !password || password !== confirmPassword) {
-      toast.error("Dados inválidos");
+      toast.error('Dados inválidos');
       return;
     }
 
-    const data: UserSignupPayload = {
+    const data: SignUpProps = {
       name,
       email,
       password,

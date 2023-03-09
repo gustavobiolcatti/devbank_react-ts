@@ -1,37 +1,40 @@
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-import { AuthContext } from "contexts/auth";
+import { useAuth } from 'contexts/auth';
 
-import UserLoginPayload from "models/userLoginPayload";
+import { SignInProps } from 'models/signin';
 
-import Input from "components/atoms/Input";
-import Button from "components/atoms/Button";
-import Title from "components/atoms/Title";
+import Input from 'components/atoms/Input';
+import Button from 'components/atoms/Button';
+import Title from 'components/atoms/Title';
 
-import * as S from "./styles";
+import * as S from './styles';
 
 const SignIn = (): JSX.Element => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const { signIn }: any = useContext(AuthContext);
+  const { signIn } = useAuth();
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: any): Promise<void> => {
     e.preventDefault();
 
     if (!email || !password) {
-      toast.error("Dados inválidos");
+      toast.error('Dados inválidos');
       return;
     }
 
-    const data: UserLoginPayload = {
+    const data: SignInProps = {
       email,
       password,
     };
 
     signIn(data);
+    navigate('/statement');
   };
 
   return (

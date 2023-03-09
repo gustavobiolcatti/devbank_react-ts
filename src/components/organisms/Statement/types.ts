@@ -1,5 +1,5 @@
-import { ColHTMLAttributes } from "react";
+import { ColHTMLAttributes } from 'react';
 
 export type TableColumnProps = ColHTMLAttributes<HTMLTableColElement> & {
   type?: 'income' | 'expense';
-}
+};

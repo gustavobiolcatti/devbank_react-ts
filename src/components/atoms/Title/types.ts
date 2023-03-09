@@ -1,5 +1,5 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes } from 'react';
 
 export type TitleProps = HTMLAttributes<HTMLHeadingElement> & {
   secondary?: boolean;
-}
+};

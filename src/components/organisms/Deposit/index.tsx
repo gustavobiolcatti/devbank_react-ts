@@ -1,31 +1,27 @@
-import { useContext, useState } from "react";
+import { useState } from 'react';
 
-import { AuthContext } from "contexts/auth";
+import { useAuth } from 'contexts/auth';
 
-import OperationPayload from "models/operationPayload";
+import { createOperation } from 'requests/queries/operation';
 
-import CardSpan from "components/atoms/CardSpan";
-import Input from "components/atoms/Input";
-import Button from "components/atoms/Button";
-import Card from "components/molecules/Card";
+import { Operation } from 'models/operation';
 
-import * as S from "./styles";
+import CardSpan from 'components/atoms/CardSpan';
+import Input from 'components/atoms/Input';
+import Button from 'components/atoms/Button';
+import Card from 'components/molecules/Card';
+
+import * as S from './styles';
 
 const Deposit = (): JSX.Element => {
   const [value, setValue] = useState<number | any>();
 
-  const {
-    createOperation,
-    defaultAccount,
-    user: {
-      account: { accountNumber },
-    },
-  }: any = useContext(AuthContext);
+  const { defaultAccount, user } = useAuth();
 
   const handleCreateOperation = async () => {
-    const data: OperationPayload = {
+    const data: Operation = {
       sender: defaultAccount,
-      receiver: accountNumber,
+      receiver: user?.account.accountNumber,
       value: parseFloat(value.toFixed(2)),
     };
 

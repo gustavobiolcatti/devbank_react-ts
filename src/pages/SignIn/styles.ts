@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import Background from 'assets/img/bg3.jpg'
+import Background from 'assets/img/bg3.jpg';
 
-import colors from "assets/colors";
+import colors from 'assets/colors';
 
 export const Container = styled.div`
   width: 100%;
@@ -20,6 +20,6 @@ export const Form = styled.form`
   justify-content: center;
   flex-direction: column;
   border-radius: 10px;
-  backdrop-filter: blur(.3em) brightness(.5);
+  backdrop-filter: blur(0.3em) brightness(0.5);
   box-shadow: 0 0 50px -20px ${colors.black};
 `;

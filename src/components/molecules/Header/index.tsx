@@ -1,53 +1,50 @@
-import { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FiSettings, FiLogOut } from 'react-icons/fi';
 
-import { AuthContext } from "contexts/auth";
+import { useAuth } from 'contexts/auth';
 
-import colors from "assets/colors";
+import colors from 'assets/colors';
 
-import * as S from "./styles";
+import * as S from './styles';
+import { listBalance } from 'requests/queries/balance';
 
 const Header = (): JSX.Element => {
-    const { user: {name}, balance, logout, getBalance }: any = useContext(AuthContext);
+  const { user, balance, logout } = useAuth();
 
-    useEffect(() => {
-        const loadBalance = async () => {
-            await getBalance();
-        }
+  useEffect(() => {
+    const loadBalance = async () => {
+      if (!user) return;
 
-        loadBalance()
-    },[getBalance])
+      await listBalance({ email: user.email });
+    };
 
-    return (
-        <S.Container>
-            <S.UserInfo>
-                <S.UserName>{name}</S.UserName>
+    loadBalance();
+  }, [listBalance]);
 
-                <S.Balance>
-                    Saldo <strong>R$ {balance}</strong>
-                </S.Balance>
-            </S.UserInfo>
+  return (
+    <S.Container>
+      <S.UserInfo>
+        <S.UserName>{user?.name}</S.UserName>
 
-            <S.Options>
-                <Link to="#">
-                    <FiSettings 
-                        size={32} 
-                        color={colors.purple}
-                    />
-                </Link>
+        <S.Balance>
+          Saldo <strong>R$ {balance}</strong>
+        </S.Balance>
+      </S.UserInfo>
 
-                <S.SeparationOptions></S.SeparationOptions>
+      <S.Options>
+        <Link to="#">
+          <FiSettings size={32} color={colors.purple} />
+        </Link>
 
-                <Link to="/" onClick={async () => await logout()}>
-                    <FiLogOut 
-                        size={32} 
-                        color={colors.purple}
-                    />
-                </Link>
-            </S.Options>
-        </S.Container>
-    )
-}
+        <S.SeparationOptions></S.SeparationOptions>
+
+        <Link to="/" onClick={async () => await logout()}>
+          <FiLogOut size={32} color={colors.purple} />
+        </Link>
+      </S.Options>
+    </S.Container>
+  );
+};
 
 export default Header;

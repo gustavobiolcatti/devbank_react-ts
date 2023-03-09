@@ -1,10 +1,10 @@
-import { createGlobalStyle, css } from "styled-components";
+import { createGlobalStyle, css } from 'styled-components';
 
-import colors from "assets/colors";
+import colors from 'assets/colors';
 
 export const globalStyle = css`
-  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
-  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap");
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap');
 
   * {
     padding: 0;
@@ -21,7 +21,7 @@ export const globalStyle = css`
   }
 
   body {
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     overflow-x: hidden;
   }
 
@@ -51,7 +51,7 @@ export const globalStyle = css`
   }
 
   .menu__link:hover {
-    backdrop-filter: brightness(.9);
+    backdrop-filter: brightness(0.9);
   }
 
   .menu__link:hover span {
@@ -64,7 +64,7 @@ export const globalStyle = css`
     font-size: 1.2em;
     text-align: center;
     text-decoration: underline;
-}
+  }
 `;
 
 export const GlobalStyle = createGlobalStyle`

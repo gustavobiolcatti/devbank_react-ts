@@ -1,8 +1,8 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
-import colors from "assets/colors";
+import colors from 'assets/colors';
 
-import { TableColumnProps } from "./types";
+import { TableColumnProps } from './types';
 
 export const Container = styled.div`
   display: flex;
@@ -25,8 +25,8 @@ export const Table = styled.table`
 `;
 
 export const TableColumn = styled.td<TableColumnProps>`
-  ${({type}) => css`
-    padding: .75em 0;
-    color: ${type === 'expense' ? colors.red : colors.green}
+  ${({ type }) => css`
+    padding: 0.75em 0;
+    color: ${type === 'expense' ? colors.red : colors.green};
   `}
 `;

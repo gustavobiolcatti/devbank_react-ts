@@ -1,30 +1,28 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { AuthContext } from "contexts/auth";
+import { useAuth } from 'contexts/auth';
 
-import { Operation } from "models/operationPayload";
+import { listOperations } from 'requests/queries/operation';
 
-import * as S from "./styles";
+import { Operation } from 'models/operation';
+
+import * as S from './styles';
 
 const Statement = (): JSX.Element => {
   const [operations, setOperations] = useState<Operation[]>();
 
-  const {
-    getOperations,
-    user: {
-      account: { accountNumber },
-    },
-  }: any = useContext(AuthContext);
+  const { user } = useAuth();
 
   useEffect(() => {
     const loadOperations = async () => {
-      const data = await getOperations();
+      if (!user) return;
+      const { operations } = await listOperations({ email: user?.email });
 
-      setOperations(data);
+      setOperations(operations);
     };
 
     loadOperations();
-  }, [getOperations]);
+  }, [listOperations]);
 
   return (
     <S.Container>
@@ -39,14 +37,20 @@ const Statement = (): JSX.Element => {
           </thead>
           <tbody>
             {operations.map((op) => {
-              const date = new Date(op.createdAt);
+              const date = new Date(op.createdAt || 0);
               return (
                 <tr key={op.id}>
                   <S.TableColumn>{op.value}</S.TableColumn>
                   <S.TableColumn
-                    type={op.receiver === accountNumber ? "income" : "expense"}
+                    type={
+                      op.receiver === user?.account.accountNumber
+                        ? 'income'
+                        : 'expense'
+                    }
                   >
-                    {op.receiver === accountNumber ? "Entrada" : "Saída"}
+                    {op.receiver === user?.account.accountNumber
+                      ? 'Entrada'
+                      : 'Saída'}
                   </S.TableColumn>
                   <S.TableColumn>{date.toLocaleDateString()}</S.TableColumn>
                 </tr>

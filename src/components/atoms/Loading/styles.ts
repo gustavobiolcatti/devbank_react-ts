@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import colors from "assets/colors";
+import colors from 'assets/colors';
 
 export const Loading = styled.div`
   position: absolute;
@@ -14,15 +14,15 @@ export const Loading = styled.div`
   animation: rotate 1s infinite;
   margin: auto;
 
-  @keyframes rotate{
-    to{
+  @keyframes rotate {
+    to {
       transform: rotate(1turn);
     }
   }
 
-  @media (max-width:768px){
+  @media (max-width: 768px) {
     .load {
       left: 40%;
     }
   }
-`
+`;

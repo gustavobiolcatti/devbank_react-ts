@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import colors from "assets/colors";
+import colors from 'assets/colors';
 
 export const Card = styled.div`
   display: flex;
@@ -10,4 +10,4 @@ export const Card = styled.div`
   align-items: center;
   border-radius: 30px;
   box-shadow: 0 0 10px -5px ${colors.black};
-`
+`;
