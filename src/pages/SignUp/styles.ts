@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import Background from 'assets/img/bg3.jpg';
-
 import colors from 'assets/colors';
 
 export const Container = styled.div`
@@ -10,7 +8,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url(${Background});
+  background: url('src/assets/img/bg3.jpg');
 `;
 
 export const Form = styled.form`
